@@ -46,6 +46,7 @@ char	append(char **line, char *buf, size_t len)
 	size_t	l;
 	char	*tline;
 
+	l = 0;
 	while ((*line)[l])
 		l++;
 	tline = malloc(sizeof(char) * (l + len + 1));
