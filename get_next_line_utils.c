@@ -13,7 +13,7 @@
 #include "get_next_line.h"
 #include <stdlib.h>
 
-void	copy_str(char **dst, char *src, size_t start, size_t len)
+void			copy_str(char **dst, char *src, size_t start, size_t len)
 {
 	size_t i;
 
@@ -28,7 +28,7 @@ void	copy_str(char **dst, char *src, size_t start, size_t len)
 	(*dst)[i + start] = '\0';
 }
 
-char	refresh(char **line, char first)
+char			refresh(char **line, char first)
 {
 	if (!line)
 		return (0);
@@ -41,7 +41,7 @@ char	refresh(char **line, char first)
 	return (1);
 }
 
-char	append(char **line, char *buf, size_t len)
+char			append(char **line, char *buf, size_t start, size_t end)
 {
 	size_t	l;
 	char	*tline;
@@ -49,11 +49,11 @@ char	append(char **line, char *buf, size_t len)
 	l = 0;
 	while ((*line)[l])
 		l++;
-	tline = malloc(sizeof(char) * (l + len + 1));
+	tline = malloc(sizeof(char) * (l + end - start + 1));
 	if (!tline)
 		return (0);
 	copy_str(&tline, *line, 0, l);
-	copy_str(&tline, buf, l, len);
+	copy_str(&tline, buf + start, l, end - start);
 	free(*line);
 	*line = tline;
 	return (1);

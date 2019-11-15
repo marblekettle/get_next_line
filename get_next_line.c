@@ -16,33 +16,43 @@
 
 int		get_next_line(int fd, char **line)
 {
-	static char			buf[BUFFER_SIZE];
-	static unsigned int	index = BUFFER_SIZE;
-	int					err;
+	static char	buf[BUFFER_SIZE];
+	static int	index = 0;
+	static int	cread = 0;
+	int			sindex;
 
-	if(!refresh(line, (index == BUFFER_SIZE)))
+	if(!refresh(line, (index == 0)))
 		return (-1);
+	sindex = index;
 	while (1)
 	{
-		if (index == BUFFER_SIZE || buf[index] == '\0')
+		if (cread == 0)
 		{
-			index = 0;
-			err = read(fd, buf, BUFFER_SIZE);
-			if (err == 0 || err == -1)
-				return (err);
+			cread = read(fd, buf, BUFFER_SIZE);
+			if (cread < 1)
+				return (cread);
 		}
 		if (buf[index] == '\n')
 		{
-			if (!append(line, buf, index))
-				return (-1);
-			index++;
+			append(line, buf, sindex, index);
+			index = (index + 1) % BUFFER_SIZE;
+			cread--;
 			return (1);
 		}
-		index++;
 		if (index == BUFFER_SIZE)
-			append(line, buf, index);
+		{
+			append (line, buf, sindex, BUFFER_SIZE);
+			sindex = 0;
+		}
+		index = (index + 1) % BUFFER_SIZE;
+		cread--;
 	}
 }
+
+/* case1: cread != 0 && index != BUFFER_SIZE
+** case2: cread != 0 && index == BUFFER_SIZE
+** case3: cread == 0 && index != BUFFER_SIZE
+*/
 
 int		main(void)
 {

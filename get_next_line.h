@@ -22,7 +22,7 @@
 
 int		get_next_line(int fd, char **line);
 void	copy_str(char **dst, char *src, size_t start, size_t len);
-char	append(char **line, char *buf, size_t len);
+char	append(char **line, char *buf, size_t start, size_t len);
 char	refresh(char **line, char first);
 
 #endif
