@@ -5,7 +5,7 @@ INCLUDE = .
 all: $(NAME)
 
 $(NAME):
-	gcc -g get_next_line.c get_next_line_utils.c -o $(NAME) -D BUFFER_SIZE=4
+	gcc -g get_next_line.c get_next_line_utils.c -o $(NAME) -D BUFFER_SIZE=1
 
 clean:
 

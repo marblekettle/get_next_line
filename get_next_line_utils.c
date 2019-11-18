@@ -13,7 +13,17 @@
 #include "get_next_line.h"
 #include <stdlib.h>
 
-void			copy_str(char **dst, char *src, size_t start, size_t len)
+int		find_next_line(char *buf, int i, int *c)
+{
+	while (buf[i] != '\n' && i < BUFFER_SIZE && *c > 0)
+	{
+		i++;
+		(*c)--;
+	}
+	return (i);
+}
+
+void	copy_str(char **dst, char *src, size_t start, size_t len)
 {
 	size_t i;
 
@@ -28,11 +38,13 @@ void			copy_str(char **dst, char *src, size_t start, size_t len)
 	(*dst)[i + start] = '\0';
 }
 
-char			refresh(char **line, char first)
+char	refresh(char **line, char first, int *ind)
 {
 	if (!line)
 		return (0);
-	if(!first)
+	if (first)
+		*ind = 0;
+	else
 		free(*line);
 	*line = malloc(sizeof(char) * 1);
 	if (!*line)
@@ -41,7 +53,7 @@ char			refresh(char **line, char first)
 	return (1);
 }
 
-char			append(char **line, char *buf, size_t start, size_t end)
+char	append(char **line, char *buf, size_t start, size_t end)
 {
 	size_t	l;
 	char	*tline;
