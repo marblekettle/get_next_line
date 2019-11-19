@@ -15,10 +15,7 @@
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 256
 # endif
-# include <sys/types.h>
-# include <sys/uio.h>
-# include <unistd.h>
-# include <stdlib.h>
+# include <stddef.h>
 
 int		get_next_line(int fd, char **line);
 int		find_next_line(char *buf, int i, int *c);

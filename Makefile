@@ -1,11 +1,12 @@
 NAME = get_next_line
 SRCS = get_next_line.c get_next_line_utils.c
 INCLUDE = .
+FLAGS = -Wall -Werror -Wextra
 
 all: $(NAME)
 
 $(NAME):
-	gcc -g get_next_line.c get_next_line_utils.c -o $(NAME) -D BUFFER_SIZE=32
+	gcc $(FLAGS) -g testmain.c $(SRCS) -o $(NAME) -D BUFFER_SIZE=32
 
 clean:
 
