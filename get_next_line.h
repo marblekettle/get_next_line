@@ -18,6 +18,7 @@
 # include <stddef.h>
 
 int		get_next_line(int fd, char **line);
+char	is_last_line(int fd, char *buffer, int *ind, int *c);
 int		find_next_line(char *buf, int i, int *c);
 void	copy_str(char **dst, char *src, size_t start, size_t len);
 char	append(char **line, char *buf, size_t start, size_t end);

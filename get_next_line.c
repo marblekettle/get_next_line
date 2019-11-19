@@ -15,20 +15,6 @@
 #include <sys/uio.h>
 #include <unistd.h>
 
-char	is_last_line(int fd, char *buffer, int *ind, int *c)
-{
-	(*ind)++;
-	(*c)--;
-	if (*ind == BUFFER_SIZE)
-		*ind = 0;
-	if (*c < 1)
-		*c = read(fd, buffer, BUFFER_SIZE);
-	if (*c < 1)
-		return (0);
-	else
-		return (1);
-}
-
 int		get_next_line(int fd, char **line)
 {
 	static char	buf[BUFFER_SIZE];

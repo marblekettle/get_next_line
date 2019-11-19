@@ -9,6 +9,7 @@ $(NAME):
 	gcc $(FLAGS) -g testmain.c $(SRCS) -o $(NAME) -D BUFFER_SIZE=1
 
 clean:
+	rm -rf $(NAME).dSYM
 
 fclean: clean
 	rm -rf $(NAME)

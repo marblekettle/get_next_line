@@ -10,6 +10,7 @@ int		main(int ac, char **av)
 	int		fd;
 	char	*line;
 	int		c;
+	char	eh;
 
 	if (ac == 2)
 		fd = open(av[1], O_RDWR);
@@ -19,6 +20,7 @@ int		main(int ac, char **av)
 	{
 		c = get_next_line(fd, &line);
 		printf("%s - %i\n", line, c);
+		read(0, &eh, 1);
 		if (c == 0 || c == -1)
 			break ;
 	}

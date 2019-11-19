@@ -12,6 +12,23 @@
 
 #include "get_next_line.h"
 #include <stdlib.h>
+#include <sys/types.h>
+#include <sys/uio.h>
+#include <unistd.h>
+
+char	is_last_line(int fd, char *buffer, int *ind, int *c)
+{
+	(*ind)++;
+	(*c)--;
+	if (*ind == BUFFER_SIZE)
+		*ind = 0;
+	if (*c < 1)
+		*c = read(fd, buffer, BUFFER_SIZE);
+	if (*c < 1)
+		return (0);
+	else
+		return (1);
+}
 
 int		find_next_line(char *buf, int i, int *c)
 {
