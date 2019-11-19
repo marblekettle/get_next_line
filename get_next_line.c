@@ -27,13 +27,12 @@ int		get_next_line(int fd, char **line)
 	{
 		sindex = index;
 		if (cread < 1)
-		{
 			cread = read(fd, buf, BUFFER_SIZE);
-			if (cread < 1)
-				return (cread);
-		}
+		if (cread < 1)
+			return (cread);
 		index = find_next_line(buf, index, &cread);
-		append(line, buf, sindex, index);
+		if (!append(line, buf, sindex, index))
+			return (-1);
 		if (index != BUFFER_SIZE)
 			break ;
 		index = 0;
@@ -43,14 +42,17 @@ int		get_next_line(int fd, char **line)
 	return (1);
 }
 
-int		main(void)
+int		main(int ac, char **av)
 {
 	int		fd;
 	char	*line;
 	int		c;
 	char	eh;
 
-	fd = open("./test.txt", O_RDWR);
+	if (ac == 2)
+		fd = open(av[1], O_RDWR);
+	else
+		fd = 0;
 	while (1)
 	{
 		c = get_next_line(fd, &line);
