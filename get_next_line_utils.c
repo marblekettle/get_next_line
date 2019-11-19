@@ -15,7 +15,7 @@
 
 int		find_next_line(char *buf, int i, int *c)
 {
-	while (buf[i] != '\n' && i < BUFFER_SIZE && *c > 0)
+	while (buf[i] && buf[i] != '\n' && i < BUFFER_SIZE && *c > 0)
 	{
 		i++;
 		(*c)--;
