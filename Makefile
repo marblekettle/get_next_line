@@ -6,7 +6,7 @@ FLAGS = -Wall -Werror -Wextra
 all: $(NAME)
 
 $(NAME):
-	gcc $(FLAGS) -g testmain.c $(SRCS) -o $(NAME) -D BUFFER_SIZE=1
+	gcc $(FLAGS) -g testmain.c $(SRCS) -o $(NAME) -D BUFFER_SIZE=4
 
 clean:
 	rm -rf $(NAME).dSYM
@@ -15,4 +15,3 @@ fclean: clean
 	rm -rf $(NAME)
 
 re: fclean all
-
