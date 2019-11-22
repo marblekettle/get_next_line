@@ -11,32 +11,54 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdlib.h>
 #include <sys/types.h>
 #include <sys/uio.h>
 #include <unistd.h>
 
-int		get_next_line(int fd, char **line)
+static void	buf_flush(char *buf)
 {
-	static char	buf[BUFFER_SIZE];
-	static int	index = -1;
-	static int	cread = 0;
-	int			sindex;
+	unsigned int i;
 
-	if (!refresh(line, (index == -1), &index))
-		return (-1);
-	while (1)
+	i = 0;
+	while (i < BUFFER_SIZE + 1)
 	{
-		sindex = index;
-		if (cread < 1)
-			cread = read(fd, buf, BUFFER_SIZE);
-		if (cread < 1)
-			return (cread);
-		index = find_next_line(buf, index, &cread);
-		if (!append(line, buf, sindex, index))
-			return (-1);
-		if (index != BUFFER_SIZE)
-			break ;
-		index = 0;
+		buf[i] = '\0';
+		i++;
 	}
-	return (is_last_line(fd, buf, &index, &cread));
+}
+
+static char	init_fd(t_fd **fdl, t_fd **target, int fd)
+{
+	if (!*fdl)
+	{
+		*fdl = (t_fd *)malloc(sizeof(t_fd));
+		if (!*fdl)
+			return (0);
+		(*fdl)->fdnum = fd;
+		(*fdl)->index = BUFFER_SIZE;
+		(*fdl)->cread = 0;
+		(*fdl)->next = NULL;
+		buf_fill((*fdl)->buf);
+		*target = *fdl;
+		return (1);
+	}
+	else if ((*fdl)->fdnum != fd)
+	{
+		if (!init_fd((&(*fdl)->next), target, fd))
+			return (0);
+		return (1);
+	}
+	*target = *fdl;
+	return (1);
+}
+
+int			get_next_line(int fd, char **line)
+{
+	static t_fd	*fdlist = NULL;
+	t_fd		*target;
+
+	if (!init_fd(&fdlist, &target, fd))
+		return (-1);
+
 }

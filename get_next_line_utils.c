@@ -15,7 +15,7 @@
 #include <sys/types.h>
 #include <sys/uio.h>
 #include <unistd.h>
-
+ /*
 char	is_last_line(int fd, char *buffer, int *ind, int *c)
 {
 	(*ind)++;
@@ -87,3 +87,5 @@ char	append(char **line, char *buf, size_t start, size_t end)
 	*line = tline;
 	return (1);
 }
+
+*/
