@@ -21,7 +21,7 @@ void	buf_flush(t_fd *fdl)
 	unsigned int i;
 
 	i = 0;
-	while (i < BUFFER_SIZE + 1)
+	while (i < BUFFER_SIZE)
 	{
 		(fdl->buf)[i] = '\0';
 		i++;
@@ -59,7 +59,7 @@ int		find_next_line(t_fd *fdl)
 	size_t	i;
 
 	i = fdl->index;
-	while ((fdl->buf)[i] && (fdl->buf)[i] != '\n')
+	while ((fdl->buf)[i] && (fdl->buf)[i] != '\n' && i < BUFFER_SIZE)
 		i++;
 	return (i);
 }

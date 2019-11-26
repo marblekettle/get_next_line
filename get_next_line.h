@@ -20,7 +20,7 @@
 typedef struct	s_fd
 {
 	int			fdnum;
-	char		buf[BUFFER_SIZE + 1];
+	char		buf[BUFFER_SIZE];
 	int			index;
 	int			cread;
 	struct s_fd	*next;

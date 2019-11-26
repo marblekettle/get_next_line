@@ -57,7 +57,7 @@ int			get_next_line(int fd, char **line)
 	t_fd		*target;
 	char		*tline;
 
-	if (!init_fd(&fdlist, &target, fd) || !init_line(&tline))
+	if (!init_fd(&fdlist, &target, fd) || !init_line(&tline) || (int)BUFFER_SIZE < 1)
 		return (-1);
 	if ((target->buf)[target->index] == '\n')
 	{
@@ -67,7 +67,10 @@ int			get_next_line(int fd, char **line)
 	while (buf_fill(target) > 0)
 	{
 		if (!append(&tline, target))
+		{
+			free(tline);
 			return (-1);
+		}
 		if ((target->buf)[target->index] == '\n')
 			break ;
 	}
