@@ -12,9 +12,6 @@
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-# ifndef U_INT
-#  define U_INT unsigned int
-# endif
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 32
 # endif
@@ -24,8 +21,8 @@ typedef struct	s_fd
 {
 	int			fdnum;
 	char		buf[BUFFER_SIZE + 1];
-	U_INT		index;
-	U_INT		cread;
+	int			index;
+	int			cread;
 	struct s_fd	*next;
 }				t_fd;
  

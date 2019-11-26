@@ -8,21 +8,32 @@
 int		main(int ac, char **av)
 {
 	int		fd;
+	int		fd2;
 	char	*line;
 	int		c;
-//	char	eh;
+	char	eh;
 
-	if (ac == 2)
+	eh = 0;
+	fd2 = 0;
+	if (ac == 3)
+	{
+		fd = open(av[1], O_RDWR);
+		fd2 = open(av[2], O_RDWR);
+	}
+	else if (ac == 2)
 		fd = open(av[1], O_RDWR);
 	else
-		fd = 0; 
-	while (1)
+		fd = 0;
+	c = 1;
+	while (c > 0)
 	{
 		c = get_next_line(fd, &line);
 		printf("%s - %i\n", line, c);
-		//read(0, &eh, 1);
-		if (c == 0 || c == -1)
-			break ;
+		if (fd2 != 0)
+		{
+			c = get_next_line(fd2, &line);
+			printf("%s - %i\n", line, c);
+		}
 	}
 	return (0);
 }

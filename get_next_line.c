@@ -34,6 +34,7 @@ static int	buf_fill(t_fd *fdl)
 	{
 		buf_flush(fdl);
 		fdl->cread = read(fdl->fdnum, fdl->buf, BUFFER_SIZE);
+		fdl->index = 0;
 	}
 	return (fdl->cread);
 }
@@ -141,9 +142,8 @@ int			get_next_line(int fd, char **line)
 			return (-1);
 		if ((target->buf)[target->index] == '\n')
 			break ;
-		if (target->index == BUFFER_SIZE)
-			target->index = 0;
 	}
-	*line = tline;
+	if (target->cread >= 0)
+		*line = tline;
 	return (target->cread > 0 ? 1 : target->cread);
 }
