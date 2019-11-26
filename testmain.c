@@ -1,4 +1,5 @@
 #include "get_next_line.h"
+#include <stdlib.h>
 #include <stdio.h>
 #include <fcntl.h>
 #include <sys/types.h>
@@ -13,7 +14,6 @@ int		main(int ac, char **av)
 	int		c;
 	char	eh;
 
-	eh = 0;
 	fd2 = 0;
 	if (ac == 3)
 	{
@@ -29,11 +29,14 @@ int		main(int ac, char **av)
 	{
 		c = get_next_line(fd, &line);
 		printf("%s - %i\n", line, c);
+		free(line);
 		if (fd2 != 0)
 		{
 			c = get_next_line(fd2, &line);
 			printf("%s - %i\n", line, c);
+			free(line);
 		}
+		read(0, &eh, 1);
 	}
 	return (0);
 }
