@@ -25,14 +25,12 @@ typedef struct	s_fd
 	int			cread;
 	struct s_fd	*next;
 }				t_fd;
- 
+
 int				get_next_line(int fd, char **line);
-/*
-char			is_last_line(int fd, char *buffer, int *ind, int *c);
-int				find_next_line(char *buf, int i, int *c);
+void			buf_flush(t_fd *fdl);
+int				buf_fill(t_fd *fdl);
 void			copy_str(char **dst, char *src, size_t start, size_t len);
-char			append(char **line, char *buf, size_t start, size_t end);
-char			refresh(char **line, char first, int *ind);
-*/
+int				find_next_line(t_fd *fdl);
+char			append(char **line, t_fd *fdl);
 
 #endif

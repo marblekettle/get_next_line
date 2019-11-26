@@ -15,29 +15,28 @@
 #include <sys/types.h>
 #include <sys/uio.h>
 #include <unistd.h>
- /*
-char	is_last_line(int fd, char *buffer, int *ind, int *c)
+
+void	buf_flush(t_fd *fdl)
 {
-	(*ind)++;
-	(*c)--;
-	if (*ind == BUFFER_SIZE)
-		*ind = 0;
-	if (*c < 1)
-		*c = read(fd, buffer, BUFFER_SIZE);
-	if (*c < 1)
-		return (0);
-	else
-		return (1);
+	unsigned int i;
+
+	i = 0;
+	while (i < BUFFER_SIZE + 1)
+	{
+		(fdl->buf)[i] = '\0';
+		i++;
+	}
 }
 
-int		find_next_line(char *buf, int i, int *c)
+int		buf_fill(t_fd *fdl)
 {
-	while (buf[i] && buf[i] != '\n' && i < BUFFER_SIZE && *c > 0)
+	if (fdl->cread <= 0)
 	{
-		i++;
-		(*c)--;
+		buf_flush(fdl);
+		fdl->cread = read(fdl->fdnum, fdl->buf, BUFFER_SIZE);
+		fdl->index = 0;
 	}
-	return (i);
+	return (fdl->cread);
 }
 
 void	copy_str(char **dst, char *src, size_t start, size_t len)
@@ -55,37 +54,36 @@ void	copy_str(char **dst, char *src, size_t start, size_t len)
 	(*dst)[i + start] = '\0';
 }
 
-char	refresh(char **line, char first, int *ind)
+int		find_next_line(t_fd *fdl)
 {
-	if (!line)
-		return (0);
-	if (first)
-		*ind = 0;
-	else
-		free(*line);
-	*line = malloc(sizeof(char) * 1);
-	if (!*line)
-		return (0);
-	**line = '\0';
-	return (1);
+	size_t	i;
+
+	i = fdl->index;
+	while ((fdl->buf)[i] && (fdl->buf)[i] != '\n')
+		i++;
+	return (i);
 }
 
-char	append(char **line, char *buf, size_t start, size_t end)
+char	append(char **line, t_fd *fdl)
 {
 	size_t	l;
+	size_t	nindex;
+	size_t	nl;
 	char	*tline;
 
 	l = 0;
 	while ((*line)[l])
 		l++;
-	tline = malloc(sizeof(char) * (l + end - start + 1));
+	nindex = find_next_line(fdl);
+	nl = nindex - fdl->index;
+	tline = malloc(sizeof(char) * (l + nl + 1));
 	if (!tline)
 		return (0);
 	copy_str(&tline, *line, 0, l);
-	copy_str(&tline, buf + start, l, end - start);
+	copy_str(&tline, fdl->buf + fdl->index, l, nl);
+	fdl->cread -= nl;
+	fdl->index = nindex;
 	free(*line);
 	*line = tline;
 	return (1);
 }
-
-*/
