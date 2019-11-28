@@ -12,12 +12,11 @@
 
 #include "get_next_line.h"
 #include <stdlib.h>
-#include <sys/types.h>
-#include <sys/uio.h>
-#include <unistd.h>
 
 static char	init_fd(t_fd **fdl, t_fd **target, int fd)
 {
+	if (fd < 0 || (int)BUFFER_SIZE < 1)
+		return (0);
 	if (!*fdl)
 	{
 		*fdl = (t_fd *)malloc(sizeof(t_fd));
@@ -57,7 +56,7 @@ int			get_next_line(int fd, char **line)
 	t_fd		*target;
 	char		*tline;
 
-	if (!init_fd(&fdlist, &target, fd) || !init_line(&tline) || (int)BUFFER_SIZE < 1)
+	if (!init_fd(&fdlist, &target, fd) || !init_line(&tline))
 		return (-1);
 	if ((target->buf)[target->index] == '\n')
 	{

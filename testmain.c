@@ -12,7 +12,6 @@ int		main(int ac, char **av)
 	int		fd2;
 	char	*line;
 	int		c;
-	char	eh;
 
 	fd2 = 0;
 	if (ac == 3)
@@ -36,7 +35,6 @@ int		main(int ac, char **av)
 			printf("%s - %i\n", line, c);
 			free(line);
 		}
-		read(0, &eh, 1);
 	}
 	return (0);
 }
