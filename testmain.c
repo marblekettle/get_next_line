@@ -28,12 +28,12 @@ int		main(int ac, char **av)
 	{
 		c = get_next_line(fd, &line);
 		printf("%s - %i\n", line, c);
-		free(line);
+		//free(line);
 		if (fd2 != 0)
 		{
 			c = get_next_line(fd2, &line);
 			printf("%s - %i\n", line, c);
-			free(line);
+			//free(line);
 		}
 	}
 	return (0);

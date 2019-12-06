@@ -15,7 +15,7 @@
 
 static char	init_fd(t_fd **fdl, t_fd **target, int fd)
 {
-	if (fd < 0 || (int)BUFFER_SIZE < 1)
+	if (fd < 0 || (int)BUFFER_SIZE < 0)
 		return (0);
 	if (!*fdl)
 	{
@@ -50,6 +50,35 @@ static char	init_line(char **line)
 	return (1);
 }
 
+static void	seek_and_destroy(t_fd **fdl, int fd)
+{
+	t_fd	*temp;
+
+	if ((*fdl)->fdnum == fd)
+	{
+		temp = *fdl;
+		*fdl = (*fdl)->next;
+		free(temp);
+	}
+	else
+		seek_and_destroy(&((*fdl)->next), fd);
+}
+
+static int	close_gnl(t_fd **fdl, t_fd *target)
+{
+	int		c;
+
+	c = target->cread;
+	if (c > 0)
+	{
+		(target->index)++;
+		(target->cread)--;
+		return (1);
+	}
+	seek_and_destroy(fdl, target->fdnum);
+	return (c);
+}
+
 int			get_next_line(int fd, char **line)
 {
 	static t_fd	*fdlist = NULL;
@@ -58,11 +87,6 @@ int			get_next_line(int fd, char **line)
 
 	if (!init_fd(&fdlist, &target, fd) || !init_line(&tline))
 		return (-1);
-	if ((target->buf)[target->index] == '\n')
-	{
-		(target->index)++;
-		(target->cread)--;
-	}
 	while (buf_fill(target) > 0)
 	{
 		if (!append(&tline, target))
@@ -75,5 +99,5 @@ int			get_next_line(int fd, char **line)
 	}
 	if (target->cread >= 0)
 		*line = tline;
-	return (target->cread > 0 ? 1 : target->cread);
+	return (close_gnl(&fdlist, target));
 }
