@@ -26,8 +26,6 @@ static char	init_fd(t_fd **fdl, t_fd **target, int fd)
 		(*fdl)->index = 0;
 		(*fdl)->cread = 0;
 		(*fdl)->next = NULL;
-		*target = *fdl;
-		return (1);
 	}
 	else if ((*fdl)->fdnum != fd)
 	{
