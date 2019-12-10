@@ -15,7 +15,7 @@
 
 static char	init_fd(t_fd **fdl, t_fd **target, int fd)
 {
-	if (fd < 0 || (int)BUFFER_SIZE < 0)
+	if (fd < 0 || (int)BUFFER_SIZE <= 0)
 		return (0);
 	if (!*fdl)
 	{
