@@ -10,6 +10,3 @@ Completed goals:
 - Can read from stdin/redirection
 - Compact static variables into one
 - Allow for more file descriptors to be used simultaneously.
-
-Issues:
-- Supposed memory leak
