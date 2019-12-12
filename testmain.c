@@ -6,6 +6,11 @@
 #include <sys/uio.h>
 #include <unistd.h>
 
+/* WARNING: This main function is not compliant with the 42-Norm and has limited
+** functionality and is only to be used for testing the get_next_line function.
+** Errors may occur.
+*/
+
 int		main(int ac, char **av)
 {
 	int		fd;

@@ -10,3 +10,9 @@ Completed goals:
 - Can read from stdin/redirection
 - Compact static variables into one
 - Allow for more file descriptors to be used simultaneously.
+
+Completed on 10-12-2019 with a 107/115 score.
+
+Disclaimer: I (MarbleKettle Enterprises) will not be held responsible for any inappropriate use of this function. If you are a coding student, at any of the 42 network's schools or otherwise, please do NOT copy any of the code in this repo when creating a similar project, but only use this repo as reference for a general method for processing files line-by-line.
+
+Test files courtesy of Jose Ramon Aleman.

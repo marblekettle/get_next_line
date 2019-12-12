@@ -17,6 +17,14 @@
 # endif
 # include <stddef.h>
 
+/* t_fd: a chained file descriptor list that stores, for each file descriptor
+** called since the start of the program, the file descriptor number 'fdnum',
+** a buffer of BUFFER_SIZE characters 'buf', an 'index' to keep track of where
+** to start reading the buffer from, and the number of characters left to read
+** before the function 'read' must be called again 'cread', which is also given
+** a value -1 if 'read' returns an error.
+*/
+
 typedef struct	s_fd
 {
 	int			fdnum;

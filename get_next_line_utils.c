@@ -16,6 +16,11 @@
 #include <sys/uio.h>
 #include <unistd.h>
 
+/* buf_flush: a version of ft_bzero tailored to work with the buffer of
+** linked file descriptor lists. Makes sure the buffer is clean after being
+** completely read.
+*/
+
 void	buf_flush(t_fd *fdl)
 {
 	unsigned int i;
@@ -28,6 +33,11 @@ void	buf_flush(t_fd *fdl)
 	}
 }
 
+/* buf_fill: calls 'read' if the buffer has been completely read and returns
+** its return value. Otherwise, returns the number of characters left to read
+** from the buffer.
+*/
+
 int		buf_fill(t_fd *fdl)
 {
 	if (fdl->cread <= 0)
@@ -38,6 +48,10 @@ int		buf_fill(t_fd *fdl)
 	}
 	return (fdl->cread);
 }
+
+/* copy_str: a version of ft_strlcpy with an added 'start' parameter to specify
+** where to start copying to in 'dst'. Also always terminates with a null char.
+*/
 
 void	copy_str(char **dst, char *src, size_t start, size_t len)
 {
@@ -54,6 +68,12 @@ void	copy_str(char **dst, char *src, size_t start, size_t len)
 	(*dst)[i + start] = '\0';
 }
 
+/* find_next_line: a version of ft_strchr tailored to work with the chained
+** file descriptor list. It returns the index in the buffer of the next
+** occurrence of a newline. If no newlines are found, it returns the value
+** of BUFFER_SIZE.
+*/
+
 int		find_next_line(t_fd *fdl)
 {
 	size_t	i;
@@ -63,6 +83,15 @@ int		find_next_line(t_fd *fdl)
 		i++;
 	return (i);
 }
+
+/* append: a version of ft_strjoin tailored to work with the chained file
+** descriptor list. It joins the buffer or part of the buffer from the current
+** index member to the next occurence of a newline to the end of the string
+** pointed to by 'line', by copying the contents of both to a newly allocated
+** string and freeing the old line. As such, 'line' has to be a string that is
+** dynamically allocated (explaining the necessity of line_init). It returns
+** 1 upon success and 0 upon a memory allocation error.
+*/
 
 char	append(char **line, t_fd *fdl)
 {
